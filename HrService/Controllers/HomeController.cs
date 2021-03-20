@@ -1,4 +1,5 @@
 ﻿using HrService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,9 +19,12 @@ namespace HrService.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            //return View();
+            return Content(User.Identity.Name);
+
         }
 
         public IActionResult Privacy()
