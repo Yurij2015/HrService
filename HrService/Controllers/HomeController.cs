@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HrService.Controllers
@@ -19,17 +20,22 @@ namespace HrService.Controllers
             _logger = logger;
         }
 
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Index()
         {
             //return View();
-            return Content(User.Identity.Name);
+            //return Content(User.Identity.Name);
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+            return Content($"ваша роль: {role}");
 
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Privacy()
         {
-            return View();
+            //return View();
+            return Content("Вход только для администратора");
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
