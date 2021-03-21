@@ -9,10 +9,13 @@ namespace HrService.Models
     public class HrDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public HrDbContext(DbContextOptions<HrDbContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
+
+
     }
 }
