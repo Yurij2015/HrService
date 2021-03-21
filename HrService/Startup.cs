@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Westwind.AspNetCore.LiveReload;
+
 
 namespace HrService
 {
@@ -39,6 +41,15 @@ namespace HrService
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
             services.AddControllersWithViews();
+            services.AddLiveReload(config =>
+            {
+                // optional - use config instead
+                //config.LiveReloadEnabled = true;
+                //config.FolderToMonitor = Path.GetFullname(Path.Combine(Env.ContentRootPath,"..")) ;
+            });
+            // for ASP.NET Core 3.x and later, add Runtime Razor Compilation if using anything Razor
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddMvc().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +65,8 @@ namespace HrService
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseLiveReload();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
