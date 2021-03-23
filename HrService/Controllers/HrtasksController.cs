@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HrService.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HrService.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class HrtasksController : Controller
     {
         private readonly HrDbContext _context;
