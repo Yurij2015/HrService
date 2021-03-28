@@ -83,7 +83,7 @@ namespace HrService.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", workPlan.IdEmployee);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "FullName", workPlan.IdEmployee);
             return View(workPlan);
         }
 

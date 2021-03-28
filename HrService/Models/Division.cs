@@ -16,7 +16,7 @@ namespace HrService.Models
         }
 
         public int Id { get; set; }
-        [Display(Name = "Категория")]
+        [Display(Name = "Название отдела")]
         public string Name { get; set; }
 
         [Display(Name = "Руководитель сотрудника")]

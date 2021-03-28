@@ -4,87 +4,179 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Employee</h4>
+    <div class="row">
+        <div class="col-md-9">
+            <h4>Общая информация</h4>
+        </div>
+        <div class="col-md-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+            <a asp-action="Delete" asp-route-id="@Model.Id">Удалить</a> |
+            <a asp-action="Index">Назад</a>
+        </div>
+    </div>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+    <dl class="row p-3" style="background: #ffffcc;">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.FirstName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.SecondName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.SecondName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.MiddleName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.MiddleName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.BirthDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Skils)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Skils)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Phone)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUser)
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IdUser)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IdUser)
+            </dd>*@
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Satus)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Satus)
+            </dd>*@
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IdDirectorNavigation.FullName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdUser)
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IdDirectorNavigation.FullName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Satus)
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IdDivisionNavigation.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Satus)
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IdDivisionNavigation.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdDirectorNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdDirectorNavigation.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdDivisionNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdDivisionNavigation.Id)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.IdPositionNavigation)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdPositionNavigation.Id)
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IdPositionNavigation.Name)
         </dd>
     </dl>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Рабочий план</h4>
+            <hr />
+
+        </div>
+        <div>
+            <table class="table table-hover" style="background: #ffffcc;">
+                <tr>
+                    <th>Задача</th>
+                    <th>Срок выполнения</th>
+                    <th>Отметка о выполнении</th>
+                    <th>Комментарий сотрудника</th>
+                    <th>Редактировать</th>
+                </tr>
+                @foreach (var trainging in ViewBag.userTraining)
+                {
+                    <tr>
+                        <td>@trainging.LearnTask</td>
+                        <td>@trainging.Deadline</td>
+                        <td>
+                            @*@trainging.Completed*@
+                            @if (trainging.Completed == 0)
+                            {
+                                <input type="checkbox" name="TraingingIsCompleted" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked name="TraingingIsCompleted" />
+
+                            }
+                        </td>
+                        <td>@trainging.Comment</td>
+                        <td>
+                            <a asp-controller="Trainings" asp-action="Edit" asp-route-id="@trainging.Id">Изменить</a>
+                            <a asp-controller="Trainings" asp-action="Delete" asp-route-id="@trainging.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Обучение</h4>
+        </div>
+        <div>
+            <table class="table table-hover" style="background: #ffffcc;">
+                <tr>
+                    <th>Учебная здача</th>
+                    <th>Срок выполнения</th>
+                    <th>Отметка о выполнении</th>
+                    <th>Комментарий сотрудника</th>
+                    <th>Редактировать</th>
+                </tr>
+
+                @foreach (var uworkplan in ViewBag.userWorkPlan)
+                {
+                    <tr>
+                        <td>@uworkplan.WorkTask</td>
+                        <td>@uworkplan.Deadline</td>
+                        <td>
+                            @*@uworkplan.Completed*@
+                            @if (uworkplan.Completed == 0)
+                            {
+                                <input type="checkbox" name="TraingingIsCompleted" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked name="TraingingIsCompleted" />
+
+                            }
+                        </td>
+                        <td>@uworkplan.Comment</td>
+                        <td>
+                            <a asp-controller="WorkPlans" asp-action="Edit" asp-route-id="@uworkplan.Id">Изменить</a>
+                            <a asp-controller="WorkPlans" asp-action="Delete" asp-route-id="@uworkplan.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <hr />
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

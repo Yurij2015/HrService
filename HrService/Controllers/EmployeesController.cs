@@ -31,9 +31,7 @@ namespace HrService.Controllers
             }
             ViewBag.divisionList = await _context.Divisions.ToListAsync();
             ViewBag.divisionSelected = _context.Divisions.Where(d => d.Id == divisionNumber);
-
             return View(await hrDbContext.ToListAsync());
-
         }
 
         // GET: Employees/Details/5
@@ -49,6 +47,9 @@ namespace HrService.Controllers
                 .Include(e => e.IdDivisionNavigation)
                 .Include(e => e.IdPositionNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.userTraining = _context.Training.Where(t => t.IdEmployee == id);
+            ViewBag.userWorkPlan = _context.WorkPlans.Where(t => t.IdEmployee == id);
+
             if (employee == null)
             {
                 return NotFound();

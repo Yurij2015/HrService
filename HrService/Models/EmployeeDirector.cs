@@ -38,6 +38,7 @@ namespace HrService.Models
         [Display(Name = "Сотрудник")]
         public virtual ICollection<Employee> Employees { get; set; }
 
+        [Display(Name = "ФИО руководителя сотрудинка")]
         public string FullName
         {
             get

@@ -35,31 +35,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.SecondName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MiddleName)
-                </th>*@
-            @*<th>
-                    @Html.DisplayNameFor(model => model.BirthDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Skils)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>*@
-            @*<th>
-                    @Html.DisplayNameFor(model => model.IdUser)
-                </th>*@
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Satus)
-                </th>*@
-
             <th>
                 @Html.DisplayNameFor(model => model.IdDirectorNavigation)
             </th>
@@ -70,11 +45,9 @@
                 @Html.DisplayNameFor(model => model.IdPositionNavigation)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Training)*@
                 Количество учебных задач
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.WorkPlans)*@
                 Количество рабочих задач
             </th>
             <th></th>
@@ -87,31 +60,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.SecondName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MiddleName)
-                    </td>*@
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.BirthDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Skils)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>*@
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.IdUser)
-                    </td>*@
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Satus)
-                    </td>*@
-
                 <td>
                     @Html.DisplayFor(modelItem => item.IdDirectorNavigation.FullName)
                 </td>
@@ -122,15 +70,29 @@
                     @Html.DisplayFor(modelItem => item.IdPositionNavigation.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Training.Count)
+                    @if (item.Training.Count == 0)
+                    {
+                        <span>-</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Training.Count);
+
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.WorkPlans.Count)
+                    @if (item.WorkPlans.Count == 0)
+                    {
+                        <span>-</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.WorkPlans.Count);
+
+                    }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Профиль сотрудника</a>
                 </td>
             </tr>
         }
