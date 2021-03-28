@@ -68,10 +68,10 @@
                     @Html.DisplayFor(modelItem => item.IdUser)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdDivisionNavigation.Id)
+                    @Html.DisplayFor(modelItem => item.IdDivisionNavigation.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdPositionNavigation.Id)
+                    @Html.DisplayFor(modelItem => item.IdPositionNavigation.Name)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |

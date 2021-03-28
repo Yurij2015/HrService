@@ -37,5 +37,13 @@ namespace HrService.Models
         public virtual Division IdDivisionNavigation { get; set; }
         [Display(Name = "Сотрудник")]
         public virtual ICollection<Employee> Employees { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return this.FirstName + " " + this.SecondName;
+            }
+        }
     }
 }

@@ -39,5 +39,13 @@ namespace HrService.Models
         public virtual Position IdPositionNavigation { get; set; }
         [Display(Name = "HR-задача")]
         public virtual ICollection<Hrtask> Hrtasks { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return this.FirstName + " " + this.SecondName;
+            }
+        }
     }
 }

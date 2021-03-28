@@ -3,9 +3,29 @@
 @{
     ViewData["Title"] = "Сотрудники";
 }
-
-<h4 class="float-right">@ViewData["Title"]</h4>
-
+<hr />
+<form asp-controller="Employees" asp-action="Index" class="form-inline">
+    <div class="form-group">
+        <label class="sr-only" for="DivisionNumber">Название отдела</label>
+        <select class="form-control mr-3" asp-items="@(new SelectList(ViewBag.divisionList,"Id","Name"))" name="DivisionNumber">
+            <option selected="selected">
+                @foreach (var division in ViewBag.divisionSelected)
+                {
+                    @division.Name
+                }
+            </option>
+        </select>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Показать сотрудников" />
+</form>
+<hr />
+<h4 class="float-right">
+    @ViewData["Title"]
+    @foreach (var division in ViewBag.divisionSelected)
+    {
+        <span>отдела</span> @division.Name;
+   }
+</h4>
 <p>
     <a asp-action="Create" class="btn btn-outline-primary">Добавить</a>
 </p>
@@ -21,24 +41,24 @@
             <th>
                 @Html.DisplayNameFor(model => model.MiddleName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Skils)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Satus)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Skils)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.IdUser)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Satus)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.IdDirectorNavigation)
             </th>
@@ -64,32 +84,32 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MiddleName)
                 </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Skils)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.IdUser)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Satus)
+                    </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.BirthDate)
+                    @Html.DisplayFor(modelItem => item.IdDirectorNavigation.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Skils)
+                    @Html.DisplayFor(modelItem => item.IdDivisionNavigation.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Satus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdDirectorNavigation.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdDivisionNavigation.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdPositionNavigation.Id)
+                    @Html.DisplayFor(modelItem => item.IdPositionNavigation.Name)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |

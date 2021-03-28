@@ -50,5 +50,13 @@ namespace HrService.Models
         public virtual ICollection<WorkPlan> WorkPlans { get; set; }
         [Display(Name = "Обучение")]
         public virtual ICollection<Training> Training { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return this.FirstName + " " + this.MiddleName + " " + this.SecondName;
+            }
+        }
     }
 }
