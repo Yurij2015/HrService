@@ -23,7 +23,7 @@ namespace HrService.Controllers
         // GET: Employees
         public async Task<IActionResult> Index(int divisionNumber)
         {
-            var hrDbContext = from e in _context.Employees.Include(e => e.IdDirectorNavigation).Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation) select e;
+            var hrDbContext = from e in _context.Employees.Include(e => e.IdDirectorNavigation).Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation).Include(e => e.Training).Include(e => e.WorkPlans) select e;
 
             if (divisionNumber != 0)
             {

@@ -51,6 +51,7 @@ namespace HrService.Models
         [Display(Name = "Обучение")]
         public virtual ICollection<Training> Training { get; set; }
 
+        [Display(Name = "ФИО")]
         public string FullName
         {
             get

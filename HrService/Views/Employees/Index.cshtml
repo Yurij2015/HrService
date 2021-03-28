@@ -24,7 +24,7 @@
     @foreach (var division in ViewBag.divisionSelected)
     {
         <span>отдела</span> @division.Name;
-   }
+    }
 </h4>
 <p>
     <a asp-action="Create" class="btn btn-outline-primary">Добавить</a>
@@ -33,14 +33,14 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.SecondName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MiddleName)
+                </th>*@
             @*<th>
                     @Html.DisplayNameFor(model => model.BirthDate)
                 </th>
@@ -59,6 +59,7 @@
             @*<th>
                     @Html.DisplayNameFor(model => model.Satus)
                 </th>*@
+
             <th>
                 @Html.DisplayNameFor(model => model.IdDirectorNavigation)
             </th>
@@ -68,6 +69,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdPositionNavigation)
             </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Training)*@
+                Количество учебных задач
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.WorkPlans)*@
+                Количество рабочих задач
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -76,14 +85,14 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.DisplayFor(modelItem => item.FullName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SecondName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MiddleName)
-                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SecondName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>*@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.BirthDate)
                     </td>
@@ -102,6 +111,7 @@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.Satus)
                     </td>*@
+
                 <td>
                     @Html.DisplayFor(modelItem => item.IdDirectorNavigation.FullName)
                 </td>
@@ -110,6 +120,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdPositionNavigation.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Training.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkPlans.Count)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
