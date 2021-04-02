@@ -61,9 +61,9 @@ namespace HrService.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["IdDirector"] = new SelectList(_context.EmployeeDirectors, "Id", "Id");
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id");
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id");
+            ViewData["IdDirector"] = new SelectList(_context.EmployeeDirectors, "Id", "FullName");
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name");
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name");
             return View();
         }
 
@@ -72,17 +72,21 @@ namespace HrService.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,MiddleName,BirthDate,Skils,Phone,Email,IdPosition,IdUser,IdDivision,IdDirector,Satus")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,MiddleName,BirthDate,Skils,Phone,IdPosition,IdUser,IdDivision,IdDirector,Satus,Email,Password")] Employee employee, User user)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(employee);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdDirector"] = new SelectList(_context.EmployeeDirectors, "Id", "Id", employee.IdDirector);
             ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id", employee.IdDivision);
             ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+
+
+
             return View(employee);
         }
 
