@@ -76,6 +76,11 @@ namespace HrService.Models
 
                 entity.Property(e => e.BirthData).HasColumnType("date");
 
+                entity.HasOne(d => d.IdPositionNavigation)
+                    .WithMany(p => p.EmployeeDirectors)
+                    .HasForeignKey(d => d.IdPosition)
+                    .HasConstraintName("FK_Employee_Position_Id");
+
                 entity.HasOne(d => d.IdDivisionNavigation)
                     .WithMany(p => p.EmployeeDirectors)
                     .HasForeignKey(d => d.IdDivision)

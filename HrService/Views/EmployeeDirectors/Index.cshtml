@@ -3,41 +3,43 @@
 @{
     ViewData["Title"] = "Руководители сотрудников";
 }
-
-<h4 class="float-right">@ViewData["Title"]</h4>
-
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary">Добавить</a>
-</p>
+<hr />
+<form asp-controller="EmployeeDirectors" asp-action="Index" class="form-inline">
+    <div class="form-group">
+        <label class="sr-only" for="DivisionNumber">Название отдела</label>
+        <select class="form-control mr-3" asp-items="@(new SelectList(ViewBag.divisionList,"Id","Name"))" name="DivisionNumber">
+            <option selected="selected">
+                @foreach (var division in ViewBag.divisionSelected)
+                {
+                    @division.Name
+                }
+            </option>
+        </select>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Показать сотрудников" />
+</form>
+<hr />
+<h4 class="float-right">
+    @ViewData["Title"]
+    @foreach (var division in ViewBag.divisionSelected)
+    {
+        <span>отдела</span> @division.Name;
+    }
+</h4>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthData)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdPosition)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdUser)
+                @Html.DisplayNameFor(model => model.IdDivisionNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdDivisionNavigation)
+                Количество сотрудников на адаптации
             </th>
             <th></th>
         </tr>
@@ -47,36 +49,27 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SecondName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MiddleName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthData)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdPosition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdUser)
+                    @Html.DisplayFor(modelItem => item.IdPositionNavigation.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdDivisionNavigation.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    @if (item.Employees.Count == 0)
+                    {
+                        <span>-</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Employees.Count);
+
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Профиль сотрудника</a>
                 </td>
             </tr>
         }

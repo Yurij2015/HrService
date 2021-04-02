@@ -21,9 +21,18 @@ namespace HrService.Controllers
         }
 
         // GET: EmployeeDirectors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int divisionNumber)
         {
-            var hrDbContext = _context.EmployeeDirectors.Include(e => e.IdDivisionNavigation);
+
+            var hrDbContext = from e in _context.EmployeeDirectors.Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation).Include(e => e.Employees) select e;
+
+            if (divisionNumber != 0)
+            {
+                hrDbContext = hrDbContext.Where(s => s.IdDivision == divisionNumber);
+            }
+
+            ViewBag.divisionList = await _context.Divisions.ToListAsync();
+            ViewBag.divisionSelected = _context.Divisions.Where(d => d.Id == divisionNumber);
             return View(await hrDbContext.ToListAsync());
         }
 

@@ -35,6 +35,8 @@ namespace HrService.Models
 
         [Display(Name = "Отдел")]
         public virtual Division IdDivisionNavigation { get; set; }
+        [Display(Name = "Должность")]
+        public virtual Position IdPositionNavigation { get; set; }
         [Display(Name = "Сотрудник")]
         public virtual ICollection<Employee> Employees { get; set; }
 

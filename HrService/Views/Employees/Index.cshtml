@@ -4,7 +4,7 @@
     ViewData["Title"] = "Сотрудники";
 }
 <hr />
-<form asp-controller="Employees" asp-action="Index" class="form-inline">
+<form asp-controller="EmployeeDirectors" asp-action="Index" class="form-inline">
     <div class="form-group">
         <label class="sr-only" for="DivisionNumber">Название отдела</label>
         <select class="form-control mr-3" asp-items="@(new SelectList(ViewBag.divisionList,"Id","Name"))" name="DivisionNumber">
