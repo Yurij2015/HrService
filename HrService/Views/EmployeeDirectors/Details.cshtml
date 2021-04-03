@@ -69,7 +69,7 @@
     <hr />
     <div class="row">
         <div class="col-md-12">
-            <h4>Сотрудника на адаптации</h4>
+            <h4>Сотрудники на адаптации</h4>
             <hr />
         </div>
         <div>
@@ -85,7 +85,16 @@
                 {
                     <tr>
                         <td>@employee.FullName</td>
-                        <td>@employee.WorkPlans.Count</td>
+                        <td>
+                            @foreach (var workplansCount in ViewBag.workplansCounts)
+                            {
+                                if (employee.Id == workplansCount.Id && workplansCount.WorkPlans.Count != 0)
+                                {
+                                    @(Math.Round((float)(((float)employee.WorkPlans.Count)/((float)workplansCount.WorkPlans.Count) * 100.0), 2));
+                                    <span>%</span>
+                                }
+                            }
+                        </td>
                         <td>
                             @foreach (var task in ViewBag.taskCounts)
                             {

@@ -49,6 +49,8 @@ namespace HrService.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             ViewBag.taskCounts = _context.Employees.Where(t => t.IdDirector == id)
                 .Include(t => t.Training).AsNoTracking();
+            ViewBag.workplansCounts = _context.Employees.Where(t => t.IdDirector == id)
+                .Include(t => t.WorkPlans).AsNoTracking();
             ViewBag.employees = _context.Employees.Where(t => t.IdDirector == id)
                 .Include(t => t.Training.Where(c => c.Completed == 1))
                 .Include(t => t.WorkPlans).AsNoTracking();
