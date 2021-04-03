@@ -45,8 +45,13 @@ namespace HrService.Controllers
             }
 
             var employeeDirector = await _context.EmployeeDirectors
-                .Include(e => e.IdDivisionNavigation)
+                .Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.taskCounts = _context.Employees.Where(t => t.IdDirector == id)
+                .Include(t => t.Training).AsNoTracking();
+            ViewBag.employees = _context.Employees.Where(t => t.IdDirector == id)
+                .Include(t => t.Training.Where(c => c.Completed == 1))
+                .Include(t => t.WorkPlans).AsNoTracking();
             if (employeeDirector == null)
             {
                 return NotFound();
