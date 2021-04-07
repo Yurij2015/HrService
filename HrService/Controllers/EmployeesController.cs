@@ -86,8 +86,6 @@ namespace HrService.Controllers
             ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employee.IdDivision);
             ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
 
-
-
             return View(employee);
         }
 
@@ -100,13 +98,17 @@ namespace HrService.Controllers
             }
 
             var employee = await _context.Employees.FindAsync(id);
+            var userid = employee.IdUser;
+            ViewBag.users = _context.Users.Where(u => u.Id == userid);
+
+
             if (employee == null)
             {
                 return NotFound();
             }
-            ViewData["IdDirector"] = new SelectList(_context.EmployeeDirectors, "Id", "Id", employee.IdDirector);
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id", employee.IdDivision);
-            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Id", employee.IdPosition);
+            ViewData["IdDirector"] = new SelectList(_context.EmployeeDirectors, "Id", "FullName", employee.IdDirector);
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employee.IdDivision);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employee.IdPosition);
             return View(employee);
         }
 
@@ -115,8 +117,10 @@ namespace HrService.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,MiddleName,BirthDate,Skils,Phone,Email,IdPosition,IdUser,IdDivision,IdDirector,Satus")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,MiddleName,BirthDate,Skils,Phone,IdPosition,IdUser,IdDivision,IdDirector,Satus,Email,Password,RoleId")] Employee employee, User user)
         {
+            user.RoleId = 2;
+
             if (id != employee.Id)
             {
                 return NotFound();
@@ -127,7 +131,10 @@ namespace HrService.Controllers
                 try
                 {
                     _context.Update(employee);
+                    var userToUpdate = _context.Users.Where(u => u.Id == employee.IdUser).FirstOrDefault();
+                    await TryUpdateModelAsync<User>(userToUpdate, "", s => s.Email, s => s.Password, s => s.RoleId);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

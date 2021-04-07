@@ -1,87 +1,90 @@
 ﻿@model HrService.Models.Employee
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактировать данные сотрудника";
 }
 
-<h1>Edit</h1>
-
-<h4>Employee</h4>
+<h4>@ViewData["Title"]</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SecondName" class="control-label"></label>
-                <input asp-for="SecondName" class="form-control" />
-                <span asp-validation-for="SecondName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" />
-                <span asp-validation-for="MiddleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            <input type="hidden" asp-for="IdUser" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SecondName" class="control-label"></label>
+                        <input asp-for="SecondName" class="form-control" />
+                        <span asp-validation-for="SecondName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MiddleName" class="control-label"></label>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BirthDate" class="control-label"></label>
+                        <input asp-for="BirthDate" class="form-control" type="date" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdPosition" class="control-label"></label>
+                        <select asp-for="IdPosition" class="form-control" asp-items="ViewBag.IdPosition"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdDivision" class="control-label"></label>
+                        <select asp-for="IdDivision" class="form-control" asp-items="ViewBag.IdDivision"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdDirector" class="control-label"></label>
+                        <select asp-for="IdDirector" class="form-control" asp-items="ViewBag.IdDirector"></select>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Skils" class="control-label"></label>
-                <input asp-for="Skils" class="form-control" />
+                <textarea asp-for="Skils" class="form-control"></textarea>
                 <span asp-validation-for="Skils" class="text-danger"></span>
             </div>
+            <hr />
+            <h4>Авторизация</h4>
+            <hr />
+            @foreach (var user in ViewBag.users)
+            {
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" class="form-control" required name="Email" value="@user.Email" />
+                </div>
+                @*<input type="hidden" name="EmplUserId" value="@user.Id" />*@
+
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input class="form-control" required name="Password" value="@user.Password" />
+                </div>
+            }
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdPosition" class="control-label"></label>
-                <select asp-for="IdPosition" class="form-control" asp-items="ViewBag.IdPosition"></select>
-                <span asp-validation-for="IdPosition" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdUser" class="control-label"></label>
-                <input asp-for="IdUser" class="form-control" />
-                <span asp-validation-for="IdUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdDivision" class="control-label"></label>
-                <select asp-for="IdDivision" class="form-control" asp-items="ViewBag.IdDivision"></select>
-                <span asp-validation-for="IdDivision" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdDirector" class="control-label"></label>
-                <select asp-for="IdDirector" class="form-control" asp-items="ViewBag.IdDirector"></select>
-                <span asp-validation-for="IdDirector" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Satus" class="control-label"></label>
-                <input asp-for="Satus" class="form-control" />
-                <span asp-validation-for="Satus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary float-lg-right" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Назад</a>
 </div>
 
 @section Scripts {
