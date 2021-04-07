@@ -23,7 +23,7 @@ namespace HrService.Controllers
         // GET: HrSpecialists
         public async Task<IActionResult> Index()
         {
-            var hrDbContext = _context.HrSpecialists.Include(h => h.IdDivisionNavigation).Include(h => h.IdPositionNavigation);
+            var hrDbContext = _context.HrSpecialists.Include(h => h.IdDivisionNavigation).Include(h => h.IdPositionNavigation).Include(h => h.Hrtasks);
             return View(await hrDbContext.ToListAsync());
         }
 
@@ -39,6 +39,8 @@ namespace HrService.Controllers
                 .Include(h => h.IdDivisionNavigation)
                 .Include(h => h.IdPositionNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.hrTasks = _context.Hrtasks.Where(t => t.IdHrSpecialist == id);
+
             if (hrSpecialist == null)
             {
                 return NotFound();

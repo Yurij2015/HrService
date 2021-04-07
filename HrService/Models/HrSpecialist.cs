@@ -40,6 +40,7 @@ namespace HrService.Models
         [Display(Name = "HR-задача")]
         public virtual ICollection<Hrtask> Hrtasks { get; set; }
 
+        [Display(Name = "ФИО")]
         public string FullName
         {
             get

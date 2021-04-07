@@ -53,7 +53,7 @@ namespace HrService.Controllers
                 .Include(t => t.WorkPlans).AsNoTracking();
             ViewBag.employees = _context.Employees.Where(t => t.IdDirector == id)
                 .Include(t => t.Training.Where(c => c.Completed == 1))
-                .Include(t => t.WorkPlans).AsNoTracking();
+                .Include(t => t.WorkPlans.Where(c => c.Completed == 1)).AsNoTracking();
             if (employeeDirector == null)
             {
                 return NotFound();
