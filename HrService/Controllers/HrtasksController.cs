@@ -49,7 +49,7 @@ namespace HrService.Controllers
         // GET: Hrtasks/Create
         public IActionResult Create()
         {
-            ViewData["IdHrSpecialist"] = new SelectList(_context.HrSpecialists, "Id", "Id");
+            ViewData["IdHrSpecialist"] = new SelectList(_context.HrSpecialists, "Id", "FullName");
             return View();
         }
 
@@ -83,7 +83,7 @@ namespace HrService.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdHrSpecialist"] = new SelectList(_context.HrSpecialists, "Id", "Id", hrtask.IdHrSpecialist);
+            ViewData["IdHrSpecialist"] = new SelectList(_context.HrSpecialists, "Id", "FullName", hrtask.IdHrSpecialist);
             return View(hrtask);
         }
 

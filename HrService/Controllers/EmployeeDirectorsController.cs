@@ -65,7 +65,9 @@ namespace HrService.Controllers
         // GET: EmployeeDirectors/Create
         public IActionResult Create()
         {
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id");
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name");
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name");
+
             return View();
         }
 
@@ -74,15 +76,26 @@ namespace HrService.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,MiddleName,BirthData,Phone,Email,IdPosition,IdDivision,IdUser")] EmployeeDirector employeeDirector)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,MiddleName,BirthData,Phone,Email,IdPosition,IdDivision,IdUser,Email,Password,RoleId")] EmployeeDirector employeeDirector, User user)
         {
+            user.RoleId = 4;
+
+
             if (ModelState.IsValid)
             {
+                _context.Add(user);
+                // сохраняем пользователя
+                await _context.SaveChangesAsync();
+                // определяем id последнего пользоватяля
+                int getLastIdUser = _context.Users.Max(p => p.Id);
+                employeeDirector.IdUser = getLastIdUser;
+
                 _context.Add(employeeDirector);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id", employeeDirector.IdDivision);
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employeeDirector.IdDivision);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employeeDirector.IdPosition);
             return View(employeeDirector);
         }
 
@@ -94,12 +107,15 @@ namespace HrService.Controllers
                 return NotFound();
             }
 
+
             var employeeDirector = await _context.EmployeeDirectors.FindAsync(id);
+            var userid = employeeDirector.IdUser;
+            ViewBag.users = _context.Users.Where(u => u.Id == userid);
             if (employeeDirector == null)
             {
                 return NotFound();
             }
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id", employeeDirector.IdDivision);
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employeeDirector.IdDivision);
             return View(employeeDirector);
         }
 
@@ -108,8 +124,10 @@ namespace HrService.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,MiddleName,BirthData,Phone,Email,IdPosition,IdDivision,IdUser")] EmployeeDirector employeeDirector)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,MiddleName,BirthData,Phone,IdPosition,IdDivision,IdUser,Email,Password,RoleId")] EmployeeDirector employeeDirector, User user)
         {
+            user.RoleId = 4;
+
             if (id != employeeDirector.Id)
             {
                 return NotFound();
@@ -120,6 +138,8 @@ namespace HrService.Controllers
                 try
                 {
                     _context.Update(employeeDirector);
+                    var userToUpdate = _context.Users.Where(u => u.Id == employeeDirector.IdUser).FirstOrDefault();
+                    await TryUpdateModelAsync<User>(userToUpdate, "", s => s.Email, s => s.Password, s => s.RoleId);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

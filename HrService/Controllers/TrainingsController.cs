@@ -49,7 +49,7 @@ namespace HrService.Controllers
         // GET: Trainings/Create
         public IActionResult Create()
         {
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id");
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "FullName");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace HrService.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", training.IdEmployee);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "FullName", training.IdEmployee);
             return View(training);
         }
 

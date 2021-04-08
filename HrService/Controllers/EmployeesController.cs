@@ -75,10 +75,17 @@ namespace HrService.Controllers
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,MiddleName,BirthDate,Skils,Phone,IdPosition,IdUser,IdDivision,IdDirector,Satus,Email,Password,RoleId")] Employee employee, User user)
         {
             user.RoleId = 2;
+
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
                 _context.Add(user);
+                // сохраняем пользователя
+                await _context.SaveChangesAsync();
+                // определяем id последнего пользоватяля
+                int getLastIdUser = _context.Users.Max(p => p.Id);
+                employee.IdUser = getLastIdUser;
+
+                _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -88,6 +95,7 @@ namespace HrService.Controllers
 
             return View(employee);
         }
+
 
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)

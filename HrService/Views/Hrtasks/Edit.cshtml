@@ -4,12 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Редактировать</h1>
 
-<h4>Hrtask</h4>
+<h4>Задача HR-менеджера</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -20,12 +20,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Deadline" class="control-label"></label>
-                <input asp-for="Deadline" class="form-control" />
+                <input asp-for="Deadline" type="date" class="form-control" />
                 <span asp-validation-for="Deadline" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Completed" class="control-label"></label>
-                <input asp-for="Completed" class="form-control" />
+                <select name="Completed" class="form-control" asp-for="Completed">
+                    <option value="1">выполнено</option>
+                    <option value="0">не выполнено</option>
+                </select>
                 <span asp-validation-for="Completed" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,14 +37,14 @@
                 <span asp-validation-for="IdHrSpecialist" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

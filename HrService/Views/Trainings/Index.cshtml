@@ -43,15 +43,30 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Deadline)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Completed)
+                </td>*@
+                <td class="text-center">
+                    @*@Html.DisplayFor(modelItem => item.Completed)*@
+                    @if (item.Completed == 0)
+                    {
+                        <input type="checkbox" disabled name="TraingingIsCompleted" />
+                    }
+                    else if (item.Completed == 1)
+                    {
+                        <input type="checkbox" disabled checked name="TraingingIsCompleted" />
+                    }
+                    else
+                    {
+                        <span style="color:red; font-size: 12px;">задача без статуса</span>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.FullName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
+                    @*<a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |*@
                     <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
