@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HrService.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, user")]
     public class EmployeesController : Controller
     {
         private readonly HrDbContext _context;
@@ -23,7 +24,15 @@ namespace HrService.Controllers
         // GET: Employees
         public async Task<IActionResult> Index(int divisionNumber)
         {
+
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+
             var hrDbContext = from e in _context.Employees.Include(e => e.IdDirectorNavigation).Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation).Include(e => e.Training).Include(e => e.WorkPlans) select e;
+
+            if (role == "user")
+            {
+                hrDbContext = hrDbContext.Where(s => s.Email == User.Identity.Name);
+            }
 
             if (divisionNumber != 0)
             {

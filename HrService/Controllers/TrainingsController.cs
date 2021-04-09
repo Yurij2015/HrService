@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HrService.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class TrainingsController : Controller
     {
         private readonly HrDbContext _context;
@@ -21,6 +22,7 @@ namespace HrService.Controllers
         }
 
         // GET: Trainings
+        [Authorize(Roles = "admin, hrSpecialist, userManager")]
         public async Task<IActionResult> Index()
         {
             var hrDbContext = _context.Training.Include(t => t.IdEmployeeNavigation);
@@ -71,6 +73,7 @@ namespace HrService.Controllers
         }
 
         // GET: Trainings/Edit/5
+        [Authorize(Roles = "user, admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,6 +93,7 @@ namespace HrService.Controllers
         // POST: Trainings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "user, admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,LearnTask,Comment,Deadline,Completed,IdEmployee")] Training training)
@@ -117,7 +121,16 @@ namespace HrService.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+                if (role == "user")
+                {
+                    return RedirectToAction("Index", "Employees");
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", training.IdEmployee);
             return View(training);

@@ -27,6 +27,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="Index">Сотрудники</a>
+
                                 <a class="dropdown-item" asp-area="" asp-controller="Trainings" asp-action="Index">Обучение</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="WorkPlans" asp-action="Index">Рабочие планы</a>
                                 <div class="dropdown-divider"></div>
@@ -59,7 +60,9 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-action="Logout" asp-controller="Account">Выход</a>
+                                <a class="nav-link text-dark" asp-action="Logout" asp-controller="Account">
+                                    Выход | @User.Identity.Name
+                                </a>
                             </li>
                         }
                         else
@@ -67,9 +70,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-action="Login" asp-controller="Account">Вход</a>
                             </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-action="Register" asp-controller="Account">Регистрация</a>
-                            </li>
+                            </li>*@
                         }
                     </ul>
                 </div>
