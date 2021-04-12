@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin, user, hrSpecialist, userManager")]
     public class EmployeesController : Controller
     {
         private readonly HrDbContext _context;

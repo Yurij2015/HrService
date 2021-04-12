@@ -73,7 +73,7 @@ namespace HrService.Controllers
         }
 
         // GET: Trainings/Edit/5
-        [Authorize(Roles = "user, admin")]
+        [Authorize(Roles = "admin, user, hrSpecialist, userManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,7 +93,7 @@ namespace HrService.Controllers
         // POST: Trainings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "user, admin")]
+        [Authorize(Roles = "admin, user, hrSpecialist, userManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,LearnTask,Comment,Deadline,Completed,IdEmployee")] Training training)

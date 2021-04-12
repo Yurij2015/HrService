@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, hrSpecialist")]
     public class HrtasksController : Controller
     {
         private readonly HrDbContext _context;

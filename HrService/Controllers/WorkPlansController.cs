@@ -51,7 +51,7 @@ namespace HrService.Controllers
         // GET: WorkPlans/Create
         public IActionResult Create()
         {
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id");
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "FullName");
             return View();
         }
 
@@ -68,12 +68,12 @@ namespace HrService.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Id", workPlan.IdEmployee);
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "FullName", workPlan.IdEmployee);
             return View(workPlan);
         }
 
         // GET: WorkPlans/Edit/5
-        [Authorize(Roles = "user, admin")]
+        [Authorize(Roles = "admin, user, hrSpecialist, userManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,7 +93,7 @@ namespace HrService.Controllers
         // POST: WorkPlans/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "user, admin")]
+        [Authorize(Roles = "admin, user, hrSpecialist, userManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,WorkTask,Deadline,Completed,Comment,IdEmployee")] WorkPlan workPlan)

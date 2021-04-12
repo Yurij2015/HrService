@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HrService.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, userManager, hrSpecialist")]
     public class EmployeeDirectorsController : Controller
     {
         private readonly HrDbContext _context;
@@ -23,8 +24,17 @@ namespace HrService.Controllers
         // GET: EmployeeDirectors
         public async Task<IActionResult> Index(int divisionNumber)
         {
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+
 
             var hrDbContext = from e in _context.EmployeeDirectors.Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation).Include(e => e.Employees) select e;
+
+           
+            if (role == "userManager")
+            {
+                hrDbContext = hrDbContext.Where(s => s.Email == User.Identity.Name);
+            }
+
 
             if (divisionNumber != 0)
             {
@@ -116,6 +126,7 @@ namespace HrService.Controllers
                 return NotFound();
             }
             ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employeeDirector.IdDivision);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employeeDirector.IdPosition);
             return View(employeeDirector);
         }
 
@@ -155,7 +166,8 @@ namespace HrService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Id", employeeDirector.IdDivision);
+            ViewData["IdDivision"] = new SelectList(_context.Divisions, "Id", "Name", employeeDirector.IdDivision);
+            ViewData["IdPosition"] = new SelectList(_context.Positions, "Id", "Name", employeeDirector.IdPosition);
             return View(employeeDirector);
         }
 

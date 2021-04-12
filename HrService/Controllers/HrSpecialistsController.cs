@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HrService.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HrService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, hrSpecialist")]
     public class HrSpecialistsController : Controller
     {
         private readonly HrDbContext _context;
@@ -23,7 +24,16 @@ namespace HrService.Controllers
         // GET: HrSpecialists
         public async Task<IActionResult> Index()
         {
-            var hrDbContext = _context.HrSpecialists.Include(h => h.IdDivisionNavigation).Include(h => h.IdPositionNavigation).Include(h => h.Hrtasks);
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+
+            //var hrDbContext = _context.HrSpecialists.Include(h => h.IdDivisionNavigation).Include(h => h.IdPositionNavigation).Include(h => h.Hrtasks);
+
+            var hrDbContext = from e in _context.HrSpecialists.Include(e => e.IdDivisionNavigation).Include(e => e.IdPositionNavigation).Include(e => e.Hrtasks) select e;
+
+            if (role == "hrSpecialist")
+            {
+                hrDbContext = hrDbContext.Where(s => s.Email == User.Identity.Name);
+            }
             return View(await hrDbContext.ToListAsync());
         }
 

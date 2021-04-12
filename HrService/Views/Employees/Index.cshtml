@@ -8,7 +8,7 @@
 <hr />
 @{
 
-    if (role == "admin")
+    if (role == "admin" || role == "hrSpecialist")
     {
         <form asp-controller="Employees" asp-action="Index" class="form-inline">
             <div class="form-group">
